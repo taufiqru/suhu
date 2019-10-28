@@ -292,7 +292,7 @@
             updateStats(hum_lo,"hum_lo");
             $('#hum_lo').text(hum_lo);
           }
-          if(data.Humidity>=60){
+          if(data.Humidity>=70){
             $('#humStatus').html("<font color='red'>High</font>");
           }else if(data.Humidity<=20.00){
             $('#humStatus').html("<font color='blue'>Low</font>");
