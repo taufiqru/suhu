@@ -8,8 +8,7 @@ class Dashboard extends CI_Controller{
 
 	function index(){
 		$this->load->model('model_dashboard');
-		$output['data']=$this->model_dashboard->getAllData();
-		$this->show('suhu/dashboard',$output);
+		$this->show('suhu/dashboard');
 	}
 
 	function show($page,$output=null){

@@ -9,12 +9,16 @@ class Model_dashboard extends CI_Model{
 		parent::__construct();
 	}
 
-	function getAllData(){
-		$row = $this->db->get('data')->result_array();
+	function getAllData($field){
+		$current_date = date('Y-m-d');
+		$sql = "select $field from (select * from data where TIMESTAMP('".$current_date."') order by id desc limit 100) sub order by id asc";
+		$row = $this->db->query($sql)->result_array();
 		return $row;
 	}
 
 	function getData($limit,$offset){
+		$current_date = date('Y-m-d');
+		$this->db->where('TIMESTAMP('.$current_date.')');
 		$row = $this->db->get('data',$limit,$offset)->result_array();
 		return $row;
 	}
