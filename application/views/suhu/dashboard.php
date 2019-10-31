@@ -169,17 +169,25 @@
         },
       scales: {
           xAxes: [{
-            type: 'linear',
+            type: 'time',
+                        time : {  unit :'second',
+                                  
+                                  parser : 'H:m:s'
+                                  
+                                },
+            distribution : 'series',
             display: true,
             scaleLabel: {
               display: true,
-              labelString: 'stamp'
+              labelString: 'Time'
             },
             ticks: {
               major: {
                 fontStyle: 'bold',
                 fontColor: '#FF0000'
-              }
+              },
+              source : 'auto'
+             
             }
           }],
           yAxes: [{
@@ -212,17 +220,25 @@
         },
       scales: {
           xAxes: [{
-            type: 'linear',
+            type: 'time',
+                        time : {  unit :'second',
+                                  
+                                  parser : 'H:m:s'
+                                  
+                                },
+            distribution : 'series',
             display: true,
             scaleLabel: {
               display: true,
-              labelString: 'stamp'
+              labelString: 'Time'
             },
             ticks: {
               major: {
                 fontStyle: 'bold',
                 fontColor: '#FF0000'
-              }
+              },
+              source : 'auto'
+             
             }
           }],
           yAxes: [{
@@ -268,57 +284,58 @@
 
   function send(){
     $.getJSON("<?=base_url();?>json/index/"+limit+"/"+offset, function(data,status){
+      
         if(status=='success'){
           offset++;
-          $('#temperature').text(data.Temperature);
-          $('#humidity').text(data.Humidity);
-          if(data.Temperature>temp_hi){
-            temp_hi = data.Temperature;
+          $('#temperature').text(data['0'].temperature);
+          $('#humidity').text(data['0'].humidity);
+          if(data['0'].temperature>temp_hi){
+            temp_hi = data['0'].temperature;
             updateStats(temp_hi,"temp_hi");
             $('#temp_hi').text(temp_hi);
           }
-          if(data.Temperature<temp_lo){
-            temp_lo = data.Temperature;
+          if(data['0'].temperature<temp_lo){
+            temp_lo = data['0'].temperature;
             updateStats(temp_lo,"temp_lo");
             $('#temp_lo').text(temp_lo);
           }
-          if(data.Humidity>hum_hi){
-            hum_hi = data.Humidity;
+          if(data['0'].humidity>hum_hi){
+            hum_hi = data['0'].humidity;
             updateStats(hum_hi,"hum_hi");
             $('#hum_hi').text(hum_hi);
           }
-          if(data.Humidity<hum_lo){
-            hum_lo = data.Humidity;
+          if(data['0'].humidity<hum_lo){
+            hum_lo = data['0'].humidity;
             updateStats(hum_lo,"hum_lo");
             $('#hum_lo').text(hum_lo);
           }
-          if(data.Humidity>=70){
+          if(data['0'].humidity>=70){
             $('#humStatus').html("<font color='red'>High</font>");
-          }else if(data.Humidity<=20.00){
+          }else if(data['0'].humidity<=20.00){
             $('#humStatus').html("<font color='blue'>Low</font>");
           }else{
             $('#humStatus').html("Normal");
           }
 
-          if(data.Temperature>=30){
+          if(data['0'].temperature>=30){
             $('#tempStatus').html("<font color='red'>High</font>");
-          }else if(data.Temperature<=16.00){
+          }else if(data['0'].temperature<=16.00){
             $('#tempStatus').html("<font color='blue'>Low</font>");
           }else{
             $('#tempStatus').html("Normal");
           }
-
           // chartJS
           tempconfig.data.datasets[0].data.push({
-            x: offset,
-            y: data.Temperature
+            x: data['0'].EVENT,
+            y: data['0'].temperature
           });
           humiconfig.data.datasets[0].data.push({
-            x: offset,
-            y: data.Humidity
+            x: data['0'].EVENT,
+            y: data['0'].humidity
           });
 
-          if(offset>100){
+            console.log(data[0].EVENT);
+          if(offset>30){
             tempconfig.data.datasets.forEach(function(dataset){
               dataset.data.shift();
             });

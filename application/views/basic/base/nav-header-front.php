@@ -25,7 +25,7 @@
   </header>
   <script>
     setInterval(function(){
-      document.getElementById('jam').innerHTML = moment().locale('en').format('dddd, Do MMMM YYYY h:mm:ss');  
+      document.getElementById('jam').innerHTML = moment().locale('id').format('dddd, Do MMMM YYYY h:mm:ss');  
     },500)
     
   </script>

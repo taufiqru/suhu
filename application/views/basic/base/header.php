@@ -23,8 +23,9 @@
   <script src="<?=base_url();?>theme/bootstrap/js/bootstrap.min.js"></script>
   <!-- AdminLTE App -->
   <script src="<?=base_url();?>theme/dist/js/app.js"></script>
-  <script type="text/javascript" src="<?=base_url();?>js/Chart.min.js"></script>
   <script type="text/javascript" src="<?=base_url();?>js/moment-with-locales.min.js"></script>
+  <script type="text/javascript" src="<?=base_url();?>js/Chart.min.js"></script>
+  
 </head>
   
 <body class="hold-transition skin-green sidebar-collapse">

@@ -13,7 +13,8 @@ class Json extends CI_Controller{
 		$offset = $this->uri->segment(4);
 
 		$data = $this->model_dashboard->getData($limit,$offset);
-		echo '{"Event" : "'.$data[0]["EVENT"].'","Temperature" : '.$data[0]["temperature"].',"Humidity" : '.$data[0]["humidity"].'}';
+		//print_r($data);
+		echo json_encode($data);
 
 	}
 
