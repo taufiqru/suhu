@@ -3,7 +3,7 @@
     $config['grocery_crud_default_language'] = 'indonesian';
 
     // There are only three choices: "uk-date" (dd/mm/yyyy), "us-date" (mm/dd/yyyy) or "sql-date" (yyyy-mm-dd)
-    $config['grocery_crud_date_format'] = 'uk-date';
+    $config['grocery_crud_date_format'] = 'sql-date';
 
     // The default per page when a user firstly see a list page
     $config['grocery_crud_default_per_page'] = 10;
@@ -29,7 +29,7 @@
     $config['grocery_crud_paging_options'] = array('10','25','50','100');
 
     // Default theme for grocery CRUD
-    $config['grocery_crud_default_theme'] = 'flexigrid';
+    $config['grocery_crud_default_theme'] = 'bootstrap-v4';
 
     // The environment is important so we can have specific configurations for specific environments
     $config['grocery_crud_environment'] = 'production';
@@ -37,3 +37,6 @@
     // Turn XSS clean into true in case you are exposing your CRUD into public. Please be aware that this is
     // stripping all the HTML and do not just trim the extra javascript
     $config['grocery_crud_xss_clean'] = false;
+
+    $config['grocery_crud_default_date_format']  = 'Y-m-d';
+    $config['grocery_crud_default_datetime_format'] = 'Y-m-d H:i:s';

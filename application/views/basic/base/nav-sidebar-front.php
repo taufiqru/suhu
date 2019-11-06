@@ -17,12 +17,6 @@
             <span>Dashboard</span>
           </a>       
         </li>
-        <li class="treeview">
-          <a href="<?=base_url()?>view">
-            <i class="fa fa-bug"></i> 
-            <span>Signature</span>
-          </a>       
-        </li>
         
       </ul>
     </section>

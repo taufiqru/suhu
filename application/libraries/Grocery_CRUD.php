@@ -290,11 +290,12 @@ class grocery_CRUD_Field_Types
 			break;
 			case 'datetime':
 				if(!empty($value) && $value != '0000-00-00 00:00:00' && $value != '1970-01-01 00:00:00')
-				{
+				{	$ci = &get_instance();
+	 				$format = $ci->config->item('grocery_crud_default_datetime_format');
 					list($year,$month,$day) = explode("-",$value);
-					list($hours,$minutes) = explode(":",substr($value,11));
+					list($hours,$minutes,$second) = explode(":",substr($value,11));
 
-					$value = date($this->php_date_format." - H:i", mktime ((int)$hours , (int)$minutes , 0, (int)$month , (int)$day ,(int)$year));
+					$value = date($format, mktime ((int)$hours , (int)$minutes , $second, (int)$month , (int)$day ,(int)$year));
 				}
 				else
 				{
@@ -2329,9 +2330,12 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 		$this->set_js_config($this->default_javascript_path.'/jquery_plugins/config/jquery-ui-timepicker-addon.config.js');
 
 		if(!empty($value) && $value != '0000-00-00 00:00:00' && $value != '1970-01-01 00:00:00'){
+			$ci = &get_instance();
+	 		$format = $ci->config->item('grocery_crud_default_datetime_format');
 			list($year,$month,$day) = explode('-',substr($value,0,10));
-			$date = date($this->php_date_format, mktime(0,0,0,$month,$day,$year));
+			$date = date($format, mktime(0,0,0,$month,$day,$year));
 			$datetime = $date.substr($value,10);
+			//$datetime = $date;
 		}
 		else
 		{

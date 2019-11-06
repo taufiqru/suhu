@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="<?=base_url();?>theme/font-awesome/css/font-awesome.min.css">  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">  
   <link rel="stylesheet" href="<?=base_url();?>theme/dist/css/AdminLTE.min.css"> 
-  <link rel="stylesheet" href="<?=base_url();?>theme/dist/css/skins/skin-green.css"> 
+  <link rel="stylesheet" href="<?=base_url();?>theme/dist/css/skins/skin-blue.css"> 
 
   <!-- REQUIRED JS SCRIPTS -->
 
@@ -28,4 +28,4 @@
   
 </head>
   
-<body class="hold-transition skin-green sidebar-collapse">
+<body class="hold-transition skin-blue sidebar-collapse">

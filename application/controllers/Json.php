@@ -9,11 +9,7 @@ class Json extends CI_Controller{
 	}
 
 	function index(){
-		$limit = $this->uri->segment(3);
-		$offset = $this->uri->segment(4);
-
-		$data = $this->model_dashboard->getData($limit,$offset);
-		//print_r($data);
+		$data = $this->model_dashboard->getData();
 		echo json_encode($data);
 
 	}
@@ -29,9 +25,32 @@ class Json extends CI_Controller{
 
 	function init_data(){
 		$field = $this->uri->segment(3);
-		$data = $this->model_dashboard->getAllData($field);
-		echo json_encode($data);
+		$db = $this->model_dashboard->getAllData(20);
+		$data = array();
+  		$json = array();
+  		foreach($db as $row):
+			$data['x'] = $row->$field;
+			$data['y'] = $row->EVENT;
+			array_push($json,$data);
+		endforeach;	
+		
+		echo json_encode($json);
 	}
+
+	function history(){
+		$field = $this->uri->segment(3);
+		$db = $this->model_dashboard->allData();
+		$data = array();
+  		$json = array();
+  		foreach($db as $row):
+			$data['x'] = $row->$field;
+			$data['y'] = $row->EVENT;
+			array_push($json,$data);
+		endforeach;	
+		
+		echo json_encode($json);
+	}
+
 }
 
 ?>

@@ -1,6 +1,4 @@
-
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
+<div class="content-wrapper" id="dashboard">
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
@@ -142,123 +140,111 @@
         </div>
       </div>
     </div>
-      
+    <div class="row">
+      <div class="col-lg-6">
+        <p><a href="<?=base_url()?>history/temperature">Temperature History &raquo;</a></p>
+      </div>
+      <div class="col-lg-6">
+        <p><a href="<?=base_url()?>history/humidity">Humidity History &raquo;</a></p>
+      </div>
+    </div>
   </section>
-  
 </div>
-<!-- /.content-wrapper -->
+
+<script src="<?base_url()?>js/visual/visual.js"></script>
 <script type="text/javascript">
-  send();
-
   var tempconfig = {
-    type : 'line',
-    data : {
-      datasets : [{
-        label: 'Temperature',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
-        fill: false,
-        data : [{}],
-      }]
-    },
-    options : {
-      responsive : true,
-      title: {
-          display: true,
-          text: 'Temperature Graph'
-        },
-      scales: {
-          xAxes: [{
-            type: 'time',
-                        time : {  unit :'second',
-                                  
-                                  parser : 'H:m:s'
-                                  
-                                },
-            distribution : 'series',
-            display: true,
-            scaleLabel: {
-              display: true,
-              labelString: 'Time'
-            },
-            ticks: {
-              major: {
-                fontStyle: 'bold',
-                fontColor: '#FF0000'
+          type : 'line',
+          data : {
+            labels : [],
+            datasets : [{
+              label: 'Temperature',
+              backgroundColor: 'rgb(255, 99, 132)',
+              borderColor: 'rgb(255, 99, 132)',
+              fill: false,
+              data : [],
+            }]
+          },
+          options : {
+            responsive : true,
+            title: {
+                display: true,
+                text: 'Temperature Graph'
               },
-              source : 'auto'
-             
-            }
-          }],
-          yAxes: [{
-            display: true,
-            scaleLabel: {
-              display: true,
-              labelString: 'value'
-            }
-          }]
-        }
-    }
-  };
-
+            scales: {
+                xAxes: [{
+                  type: 'time',
+                              time : {  unit :'second',
+                                        
+                                        parser : 'H:m:s'
+                                        
+                                      },
+                  distribution : 'series',
+                  display: true,
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'Time'
+                  },
+                  ticks: {
+                    source : 'auto'
+                   }
+                }],
+                yAxes: [{
+                  display: true,
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'value'
+                  }
+                }]
+              }
+          }
+        };
   var humiconfig = {
-    type : 'line',
-    data : {
-      datasets : [{
-        label: 'Humidity',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
-        fill: false,
-        data : [{}],
-      }]
-    },
-    options : {
-      responsive : true,
-      title: {
-          display: true,
-          text: 'Humidity Graph'
-        },
-      scales: {
-          xAxes: [{
-            type: 'time',
-                        time : {  unit :'second',
-                                  
-                                  parser : 'H:m:s'
-                                  
-                                },
-            distribution : 'series',
+      type : 'line',
+      data : {
+        labels : [],
+        datasets : [{
+          label: 'Humidity',
+          backgroundColor: 'rgb(255, 99, 132)',
+          borderColor: 'rgb(255, 99, 132)',
+          fill: false,
+          data : [],
+        }]
+      },
+      options : {
+        responsive : true,
+        title: {
             display: true,
-            scaleLabel: {
+            text: 'Humidity Graph'
+          },
+        scales: {
+            xAxes: [{
+              type: 'time',
+                          time : {  unit :'second',
+                                    
+                                    parser : 'H:m:s'
+                                    
+                                  },
+              distribution : 'series',
               display: true,
-              labelString: 'Time'
-            },
-            ticks: {
-              major: {
-                fontStyle: 'bold',
-                fontColor: '#FF0000'
+              scaleLabel: {
+                display: true,
+                labelString: 'Time'
               },
-              source : 'auto'
-             
-            }
-          }],
-          yAxes: [{
-            display: true,
-            scaleLabel: {
+              ticks: {
+                source : 'auto'
+              }
+            }],
+            yAxes: [{
               display: true,
-              labelString: 'value'
-            }
-          }]
-        }
-    }
-  };
-
-  var ctx = document.getElementById('tempgraph').getContext('2d');
-  var myLineTemp = new Chart(ctx, tempconfig);
-
-  var csx = document.getElementById('humigraph').getContext('2d');
-  var myLineHumi = new Chart(csx, humiconfig);
-
-
+              scaleLabel: {
+                display: true,
+                labelString: 'value'
+              }
+            }]
+          }
+      }
+    };
   var limit = 1;
   var offset = 0;
 
@@ -272,85 +258,132 @@
 
   var val;
   var stats;
-  function updateStats(val,stats){
-    var data = { 
-       stats : stats,
-       value : val 
-    };
-    $.getJSON("<?=base_url();?>json/update",data,function(data,status){
-      //console.log(data);
+
+  var coba;   
+
+  $(document).ready(function(){
+    send();
+    
+    $.ajax({
+    url :"<?=base_url();?>json/init_data/temperature",
+    datatype : "json",
+    async : false,
+    success : function(response){
+        coba = response;    
+        var datasets = JSON.parse(response).map(function(e){
+          return e.x;
+        });
+        var labels = JSON.parse(response).map(function(e){
+          return e.y;
+        });
+        window.tempconfig.data.datasets[0].data = datasets;
+        window.tempconfig.data.labels = labels;
+      } 
     });
-  }
 
-  function send(){
-    $.getJSON("<?=base_url();?>json/index/"+limit+"/"+offset, function(data,status){
-      
-        if(status=='success'){
-          offset++;
-          $('#temperature').text(data['0'].temperature);
-          $('#humidity').text(data['0'].humidity);
-          if(data['0'].temperature>temp_hi){
-            temp_hi = data['0'].temperature;
-            updateStats(temp_hi,"temp_hi");
-            $('#temp_hi').text(temp_hi);
-          }
-          if(data['0'].temperature<temp_lo){
-            temp_lo = data['0'].temperature;
-            updateStats(temp_lo,"temp_lo");
-            $('#temp_lo').text(temp_lo);
-          }
-          if(data['0'].humidity>hum_hi){
-            hum_hi = data['0'].humidity;
-            updateStats(hum_hi,"hum_hi");
-            $('#hum_hi').text(hum_hi);
-          }
-          if(data['0'].humidity<hum_lo){
-            hum_lo = data['0'].humidity;
-            updateStats(hum_lo,"hum_lo");
-            $('#hum_lo').text(hum_lo);
-          }
-          if(data['0'].humidity>=70){
-            $('#humStatus').html("<font color='red'>High</font>");
-          }else if(data['0'].humidity<=20.00){
-            $('#humStatus').html("<font color='blue'>Low</font>");
-          }else{
-            $('#humStatus').html("Normal");
-          }
+    $.ajax({
+    url :"<?=base_url();?>json/init_data/humidity",
+    datatype : "json",
+    async : false,
+    success : function(response){
+        coba = response;    
+        var datasets = JSON.parse(response).map(function(e){
+          return e.x;
+        });
+        var labels = JSON.parse(response).map(function(e){
+          return e.y;
+        });
+        window.humiconfig.data.datasets[0].data = datasets;
+        window.humiconfig.data.labels = labels;
+      } 
+    });
+    
+    
+    var ctx = document.getElementById('tempgraph').getContext('2d');
+    var myLineTemp = new Chart(ctx, window.tempconfig);
 
-          if(data['0'].temperature>=30){
-            $('#tempStatus').html("<font color='red'>High</font>");
-          }else if(data['0'].temperature<=16.00){
-            $('#tempStatus').html("<font color='blue'>Low</font>");
-          }else{
-            $('#tempStatus').html("Normal");
-          }
-          // chartJS
-          tempconfig.data.datasets[0].data.push({
-            x: data['0'].EVENT,
-            y: data['0'].temperature
-          });
-          humiconfig.data.datasets[0].data.push({
-            x: data['0'].EVENT,
-            y: data['0'].humidity
-          });
+    var csx = document.getElementById('humigraph').getContext('2d');
+    var myLineHumi = new Chart(csx, humiconfig);
 
-            console.log(data[0].EVENT);
-          if(offset>30){
-            tempconfig.data.datasets.forEach(function(dataset){
-              dataset.data.shift();
-            });
-            humiconfig.data.datasets.forEach(function(dataset){
-              dataset.data.shift();
-            });
-          }
-          myLineTemp.update();
-          myLineHumi.update();
-          setTimeout(function(){
-            send();
-          },1000);
-        }
+    function updateStats(val,stats){
+      var data = { 
+         stats : stats,
+         value : val 
+      };
+      $.getJSON("<?=base_url();?>json/update",data,function(data,status){
+      });
+    }
+
+    function send(){
+      $.getJSON("<?=base_url();?>json/index/", function(data,status){
         
-      }
-    );
-  }
+          if(status=='success'){
+            $('#temperature').text(data['0'].temperature);
+            $('#humidity').text(data['0'].humidity);
+            if(data['0'].temperature>temp_hi){
+              temp_hi = data['0'].temperature;
+              updateStats(temp_hi,"temp_hi");
+              $('#temp_hi').text(temp_hi);
+            }
+            if(data['0'].temperature<temp_lo){
+              temp_lo = data['0'].temperature;
+              updateStats(temp_lo,"temp_lo");
+              $('#temp_lo').text(temp_lo);
+            }
+            if(data['0'].humidity>hum_hi){
+              hum_hi = data['0'].humidity;
+              updateStats(hum_hi,"hum_hi");
+              $('#hum_hi').text(hum_hi);
+            }
+            if(data['0'].humidity<hum_lo){
+              hum_lo = data['0'].humidity;
+              updateStats(hum_lo,"hum_lo");
+              $('#hum_lo').text(hum_lo);
+            }
+            if(data['0'].humidity>=70){
+              $('#humStatus').html("<font color='red'>High</font>");
+            }else if(data['0'].humidity<=20.00){
+              $('#humStatus').html("<font color='blue'>Low</font>");
+            }else{
+              $('#humStatus').html("Normal");
+            }
+
+            if(data['0'].temperature>=30){
+              $('#tempStatus').html("<font color='red'>High</font>");
+            }else if(data['0'].temperature<=16.00){
+              $('#tempStatus').html("<font color='blue'>Low</font>");
+            }else{
+              $('#tempStatus').html("Normal");
+            }
+            // chartJS
+            if(window.tempconfig.data.labels[window.tempconfig.data.labels.length-1]!=data['0'].EVENT){
+                window.tempconfig.data.datasets[0].data.push({
+                  x: data['0'].EVENT,
+                  y: data['0'].temperature
+                });
+                window.humiconfig.data.datasets[0].data.push({
+                  x: data['0'].EVENT,
+                  y: data['0'].humidity
+                });
+            }
+            
+            if(window.tempconfig.data.datasets[0].data.length>30){
+              window.tempconfig.data.datasets.forEach(function(dataset){
+                dataset.data.shift();
+              });
+              window.humiconfig.data.datasets.forEach(function(dataset){
+                dataset.data.shift();
+              });
+            }
+            myLineTemp.update();
+            myLineHumi.update();
+            setTimeout(function(){
+              send();
+            },1000);
+          }
+          
+        }
+      );
+    }
+  });
 </script>
