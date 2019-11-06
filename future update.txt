@@ -1,8 +1,7 @@
 future update
 ------------------
 
-1. histori per hari data humidity + temperature
-2. kalkulasi suhu rata-rata
-3. select 100 data sebelumnya untuk ditampilkan, ambil data realtime (timing retrieve dinamis)
-4. update tampilan, rapihin kodingan
-5. stats harian
+1. searchin history
+2. AVG
+3. update max min ganti hari
+4. 
