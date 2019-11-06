@@ -179,7 +179,7 @@
                                         parser : 'H:m:s'
                                         
                                       },
-                  distribution : 'series',
+                  distribution : 'linear',
                   display: true,
                   scaleLabel: {
                     display: true,
@@ -225,7 +225,7 @@
                                     parser : 'H:m:s'
                                     
                                   },
-              distribution : 'series',
+              distribution : 'linear',
               display: true,
               scaleLabel: {
                 display: true,
@@ -262,7 +262,7 @@
   var coba;   
 
   $(document).ready(function(){
-    send();
+    
     
     $.ajax({
     url :"<?=base_url();?>json/init_data/temperature",
@@ -314,10 +314,15 @@
       });
     }
 
-    function send(){
+    var time = window.tempconfig.data.labels[window.tempconfig.data.labels.length-1];
+    console.log(time);
+    send(time);
+
+    function send(time){
       $.getJSON("<?=base_url();?>json/index/", function(data,status){
         
           if(status=='success'){
+            //console.log(status);
             $('#temperature').text(data['0'].temperature);
             $('#humidity').text(data['0'].humidity);
             if(data['0'].temperature>temp_hi){
@@ -356,29 +361,38 @@
               $('#tempStatus').html("Normal");
             }
             // chartJS
-            if(window.tempconfig.data.labels[window.tempconfig.data.labels.length-1]!=data['0'].EVENT){
-                window.tempconfig.data.datasets[0].data.push({
-                  x: data['0'].EVENT,
-                  y: data['0'].temperature
-                });
-                window.humiconfig.data.datasets[0].data.push({
-                  x: data['0'].EVENT,
-                  y: data['0'].humidity
-                });
-            }
             
-            if(window.tempconfig.data.datasets[0].data.length>30){
-              window.tempconfig.data.datasets.forEach(function(dataset){
-                dataset.data.shift();
+
+            if(time != data['0'].EVENT){
+              time = data['0'].EVENT;
+              //console.log(time);
+              
+              if(window.tempconfig.data.datasets[0].data.length>=30){
+                //console.log('deleting sumthing');
+                window.tempconfig.data.datasets.forEach(function(dataset){
+                  dataset.data.shift();
+                });
+                window.humiconfig.data.datasets.forEach(function(dataset){
+                  dataset.data.shift();
+                });
+              }
+
+              //console.log('now adding sumthing');
+              window.tempconfig.data.datasets[0].data.push({
+                x: data['0'].EVENT,
+                y: data['0'].temperature
               });
-              window.humiconfig.data.datasets.forEach(function(dataset){
-                dataset.data.shift();
+
+              window.humiconfig.data.datasets[0].data.push({
+                x: data['0'].EVENT,
+                y: data['0'].humidity
               });
+              
+              myLineTemp.update();
+              myLineHumi.update();
             }
-            myLineTemp.update();
-            myLineHumi.update();
             setTimeout(function(){
-              send();
+              send(time);
             },1000);
           }
           

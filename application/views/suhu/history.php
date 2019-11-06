@@ -92,7 +92,7 @@
                                         parser : 'H:m:s'
                                         
                                       },
-                  distribution : 'series',
+                  distribution : 'linear',
                   display: true,
                   scaleLabel: {
                     display: true,

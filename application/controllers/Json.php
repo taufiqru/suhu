@@ -25,7 +25,7 @@ class Json extends CI_Controller{
 
 	function init_data(){
 		$field = $this->uri->segment(3);
-		$db = $this->model_dashboard->getAllData(20);
+		$db = $this->model_dashboard->getAllData(30);
 		$data = array();
   		$json = array();
   		foreach($db as $row):
