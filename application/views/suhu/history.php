@@ -79,7 +79,7 @@
 
           options : {
             maintainAspectRatio: false,
-            responsive : true,
+            responsive : false,
             title: {
                 display: false,
                 text: '<?=$subject?>'
@@ -92,14 +92,14 @@
                                         parser : 'H:m:s'
                                         
                                       },
-                  distribution : 'linear',
+                  distribution : 'series',
                   display: true,
                   scaleLabel: {
                     display: true,
                     labelString: 'Timestamp'
                   },
                   ticks: {
-                    source : 'auto'
+                    source : 'data'
                    }
                 }],
                 yAxes: [{

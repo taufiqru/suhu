@@ -179,14 +179,14 @@
                                         parser : 'H:m:s'
                                         
                                       },
-                  distribution : 'linear',
+                  distribution : 'series',
                   display: true,
                   scaleLabel: {
                     display: true,
                     labelString: 'Time'
                   },
                   ticks: {
-                    source : 'auto'
+                    source : 'data'
                    }
                 }],
                 yAxes: [{
@@ -225,14 +225,14 @@
                                     parser : 'H:m:s'
                                     
                                   },
-              distribution : 'linear',
+              distribution : 'series',
               display: true,
               scaleLabel: {
                 display: true,
                 labelString: 'Time'
               },
               ticks: {
-                source : 'auto'
+                source : 'data'
               }
             }],
             yAxes: [{
@@ -315,7 +315,6 @@
     }
 
     var time = window.tempconfig.data.labels[window.tempconfig.data.labels.length-1];
-    console.log(time);
     send(time);
 
     function send(time){
@@ -366,27 +365,34 @@
             if(time != data['0'].EVENT){
               time = data['0'].EVENT;
               //console.log(time);
-              
-              if(window.tempconfig.data.datasets[0].data.length>=30){
-                //console.log('deleting sumthing');
-                window.tempconfig.data.datasets.forEach(function(dataset){
-                  dataset.data.shift();
-                });
-                window.humiconfig.data.datasets.forEach(function(dataset){
-                  dataset.data.shift();
-                });
+              if(window.tempconfig.data.datasets[0].data.length>=20){
+               // console.log('deleting sumthing');
+                // window.tempconfig.data.datasets.forEach(function(dataset){
+                //   dataset.data.pop();
+                // });
+                // window.humiconfig.data.datasets.forEach(function(dataset){
+                //   dataset.data.pop();
+                // });
+                window.tempconfig.data.datasets[0].data.shift();
+                window.tempconfig.data.labels.shift();
+                window.humiconfig.data.datasets[0].data.shift();
+                window.humiconfig.data.labels.shift();
               }
+              console.log('now adding sumthing');
+              // window.tempconfig.data.datasets[0].data.push({
+              //   x: data['0'].EVENT,
+              //   y: data['0'].temperature
+              // });
+              window.tempconfig.data.datasets[0].data.push(data['0'].temperature);
+              window.tempconfig.data.labels.push(data['0'].EVENT)
+              
+              window.humiconfig.data.datasets[0].data.push(data['0'].humidity);
+              window.humiconfig.data.labels.push(data['0'].EVENT)
 
-              //console.log('now adding sumthing');
-              window.tempconfig.data.datasets[0].data.push({
-                x: data['0'].EVENT,
-                y: data['0'].temperature
-              });
-
-              window.humiconfig.data.datasets[0].data.push({
-                x: data['0'].EVENT,
-                y: data['0'].humidity
-              });
+              // window.humiconfig.data.datasets[0].data.push({
+              //   x: data['0'].EVENT,
+              //   y: data['0'].humidity
+              // });
               
               myLineTemp.update();
               myLineHumi.update();

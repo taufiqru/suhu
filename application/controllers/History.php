@@ -11,6 +11,7 @@ class History extends CI_Controller{
 		//$subject = "Temperature History";
 		$crud = new Grocery_CRUD_Extended();
 		$crud->unset_jquery();
+		$crud->unset_bootstrap();
 		$crud->unset_read();
 		$crud->unset_delete();
 		$crud->unset_add();
