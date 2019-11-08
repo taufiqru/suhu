@@ -7,8 +7,12 @@ class History extends CI_Controller{
 		
 	}
 
-	function temperature(){
-		//$subject = "Temperature History";
+	function temperature($date=null){
+		($date==null)?$date=date('Y-m-d'):$date;
+
+		$lower = $date.' 00:00:00';
+		$upper = $date.' 23:59:59';
+
 		$crud = new Grocery_CRUD_Extended();
 		$crud->unset_jquery();
 		$crud->unset_bootstrap();
@@ -19,18 +23,30 @@ class History extends CI_Controller{
 		$crud->set_table('data');
 		//$crud->set_subject($subject);
 		$crud->columns('EVENT','temperature');
+		$crud->where([
+				'EVENT >= ' => $lower,
+				'EVENT <= ' => $upper
+			]);
+		
+		
 		$output = $crud->render();
 		$output->title = "History";
 		$output->subtitle = "Temperature Graph & Table";
 		$output->subject = "Temperature";
+		$output->date = $date;
 
 		$this->show('suhu/history',$output);	
 	}
 
-	function humidity(){
+	function humidity($date=null){
+		($date==null)?$date=date('Y-m-d'):$date;
+
+		$lower = $date.' 00:00:00';
+		$upper = $date.' 23:59:59';
 		$subject = "Humidity History";
 		$crud = new Grocery_CRUD_Extended();
 		$crud->unset_jquery();
+		$crud->unset_bootstrap();
 		$crud->unset_read();
 		$crud->unset_delete();
 		$crud->unset_add();
@@ -38,10 +54,15 @@ class History extends CI_Controller{
 		$crud->set_table('data');
 		$crud->set_subject($subject);
 		$crud->columns('EVENT','humidity');
+		$crud->where([
+				'EVENT >= ' => $lower,
+				'EVENT <= ' => $upper
+			]);
 		$output = $crud->render();
 		$output->title = "History";
 		$output->subtitle = "Humidity Graph & Table";
 		$output->subject = "Humidity";
+		$output->date = $date;
 
 		$this->show('suhu/history',$output);	
 	}

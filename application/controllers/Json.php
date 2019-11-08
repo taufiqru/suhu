@@ -39,7 +39,8 @@ class Json extends CI_Controller{
 
 	function history(){
 		$field = $this->uri->segment(3);
-		$db = $this->model_dashboard->allData();
+		$date = $this->uri->segment(4);
+		$db = $this->model_dashboard->allData($date);
 		$data = array();
   		$json = array();
   		foreach($db as $row):

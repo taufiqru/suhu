@@ -14,6 +14,7 @@
           <div class="inner">
             <h3 id="tempStatus">Normal</h3>
             <p>Temperature Status</p>
+
           </div>
           <a href="#" class="small-box-footer"></a>
         </div>
@@ -142,7 +143,7 @@
     </div>
     <div class="row">
       <div class="col-lg-6">
-        <p><a href="<?=base_url()?>history/temperature">Temperature History &raquo;</a></p>
+        <p><a href="<?=base_url()?>history/temperature">Temperature History &raquo;</a>
       </div>
       <div class="col-lg-6">
         <p><a href="<?=base_url()?>history/humidity">Humidity History &raquo;</a></p>
@@ -320,7 +321,7 @@
     function send(time){
       $.getJSON("<?=base_url();?>json/index/", function(data,status){
         
-          if(status=='success'){
+          if(status=='success' && data.length > 0){
             //console.log(status);
             $('#temperature').text(data['0'].temperature);
             $('#humidity').text(data['0'].humidity);

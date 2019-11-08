@@ -1,4 +1,5 @@
-<link rel="stylesheet" href="<?=base_url();?>css/jquery.loadingModal.css">  
+<link rel="stylesheet" href="<?=base_url();?>css/jquery.loadingModal.css">
+
 <?php foreach($css_files as $file): ?>
 <link type="text/css" rel="stylesheet" href="<?php echo $file; ?>" />
 <?php endforeach; ?>
@@ -42,6 +43,24 @@
             <h3 class="box-title"><?=$subject?></h3>
           </div>
           <div class="box-body" style="overflow-x: scroll;">
+            <div class="col-lg-3">
+              <form action="<?=base_url()?>history/<?=lcfirst($subject);?>" method="post" id="dateForm">
+                <div class="form-group">
+                <label>Date:</label>
+                <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right" id="datepicker" name="date" width="200" value="<?=$date;?>">
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-info btn-flat" id="btnSubmit">Go!</button>
+                  </span>
+                </div>
+                <!-- /.input group -->
+                </div>
+              </form>
+            </div>
+
             <div class="chartWrapper">
               <div class="chartAreaWrapper">
                 <canvas id="graph" height="300" width="16000"></canvas>
@@ -113,8 +132,20 @@
           }
         };
   
+ //Date picker
+  $('#datepicker').datepicker({
+    format : 'yyyy-mm-dd',
+    autoclose: true,
+  });
+
+  $('#btnSubmit').click('click',()=>{
+    var date = $('#datepicker').val();
+    var url = "<?=base_url()?>history/<?=lcfirst($subject);?>/"+date;
+    window.location=url;
+  });
+
   $.ajax({
-    url : "<?=base_url();?>json/history/<?=lcfirst($subject);?>",
+    url : "<?=base_url();?>json/history/<?=lcfirst($subject);?>/<?=$date?>",
     datatype : "json",
     async : false,
     success : function(response){

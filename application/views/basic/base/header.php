@@ -12,7 +12,8 @@
   <link rel="stylesheet" href="<?=base_url();?>theme/font-awesome/css/font-awesome.min.css">  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">  
   <link rel="stylesheet" href="<?=base_url();?>theme/dist/css/AdminLTE.min.css"> 
-  <link rel="stylesheet" href="<?=base_url();?>theme/dist/css/skins/skin-blue.css"> 
+  <link rel="stylesheet" href="<?=base_url();?>theme/dist/css/skins/skin-blue.css">
+  <link rel="stylesheet" type="text/css" href="<?=base_url();?>theme/plugins/datepicker/datepicker3.css"> 
 
   <!-- REQUIRED JS SCRIPTS -->
 
@@ -25,6 +26,7 @@
   <script src="<?=base_url();?>theme/dist/js/app.js"></script>
   <script type="text/javascript" src="<?=base_url();?>js/moment-with-locales.min.js"></script>
   <script type="text/javascript" src="<?=base_url();?>js/Chart.min.js"></script>
+  <script type="text/javascript" src="<?=base_url();?>theme/plugins/datepicker/bootstrap-datepicker.js"></script>
   
 </head>
   
